@@ -26,10 +26,20 @@ namespace Our.Umbraco.TagHelpers
 
         private IUmbracoContextAccessor _umbracoContextAccessor;
 
+#if NET10_0_OR_GREATER
+        private readonly global::Umbraco.Cms.Core.Services.IDocumentUrlService _documentUrlService;
+
+        public ActiveClassTagHelper(IUmbracoContextAccessor umbracoContextAccessor, global::Umbraco.Cms.Core.Services.IDocumentUrlService documentUrlService)
+        {
+            _umbracoContextAccessor = umbracoContextAccessor;
+            _documentUrlService = documentUrlService;
+        }
+#else
         public ActiveClassTagHelper(IUmbracoContextAccessor umbracoContextAccessor)
         {
             _umbracoContextAccessor = umbracoContextAccessor;
         }
+#endif
 
         /// <summary>
         /// The CSS class name you wish to append to the class attribute
@@ -66,9 +76,12 @@ namespace Our.Umbraco.TagHelpers
             if (Uri.TryCreate(href, UriKind.Absolute, out Uri? link) || Uri.TryCreate(ctx.PublishedRequest.Uri, href, out link))
             {
 #if NET10_0_OR_GREATER
-                // TODO: Fix GetByRoute replacement for Umbraco 17
-                // var nodeOfLink = ctx.Content.GetByRoute(link.AbsolutePath);
                 IPublishedContent? nodeOfLink = null;
+                var docKey = _documentUrlService.GetDocumentKeyByRoute(link.AbsolutePath, null, null, false);
+                if (docKey.HasValue)
+                {
+                     nodeOfLink = ctx.Content.GetById(docKey.Value);
+                }
 #else
                 // Get the node based of the value in the HREF
                 var nodeOfLink = ctx.Content.GetByRoute(link.AbsolutePath);
