@@ -88,8 +88,8 @@ namespace Our.Umbraco.TagHelpers.Services
         private async Task<string> GetSelfHostedUrl(SelfHostedFile file)
         {
             var filePath = $"{file.FolderPath}/{file.FileName}";
-            var localPath = _hostingEnvironment.MapPathWebRoot(file.FolderPath);
-            var localFilePath = _hostingEnvironment.MapPathWebRoot(filePath);
+            var localPath = Path.Combine(_hostingEnvironment.WebRootPath, file.FolderPath.TrimStart('/', '\\'));
+            var localFilePath = Path.Combine(_hostingEnvironment.WebRootPath, filePath.TrimStart('/', '\\'));
 
             if (!File.Exists(localFilePath) && file.ExternalUrl is not null)
             {

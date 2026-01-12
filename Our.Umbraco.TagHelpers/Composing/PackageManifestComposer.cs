@@ -34,7 +34,7 @@ namespace Our.Umbraco.TagHelpers.Composing
                  {
                      Name = "Our Umbraco TagHelpers",
                      Version = version,
-                     AllowPackageTelemetry = true,
+                     AllowTelemetry = true,
                      Extensions = new object[0] // Adding empty extensions just in case
                  }
              });

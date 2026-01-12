@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -12,6 +13,9 @@ namespace Our.Umbraco.TagHelpers
     /// Render Umbraco Macros in your views
     /// </summary>
     [HtmlTargetElement("our-macro")]
+#if NET10_0_OR_GREATER
+    [Obsolete("Macros are removed in Umbraco 14+. This TagHelper does nothing in this version.")]
+#endif
     public class MacroTagHelper : TagHelper
     {
         private readonly IUmbracoComponentRenderer _umbracoComponentRenderer;
