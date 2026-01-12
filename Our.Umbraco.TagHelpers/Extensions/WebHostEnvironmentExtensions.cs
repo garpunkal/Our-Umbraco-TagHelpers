@@ -5,6 +5,7 @@ using Umbraco.Cms.Core;
 
 namespace Our.Umbraco.TagHelpers.Extensions
 {
+#if !NET10_0_OR_GREATER
     [Obsolete("This should be removed, when the package gets upgraded past Umbraco 10")]
     public static class WebHostEnvironmentExtensions
     {
@@ -45,4 +46,5 @@ namespace Our.Umbraco.TagHelpers.Extensions
             return Path.Combine(root, newPath.TrimStart(Constants.CharArrays.TildeForwardSlashBackSlash));
         }
     }
+#endif
 }

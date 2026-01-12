@@ -4,6 +4,7 @@ using Umbraco.Cms.Core.Web;
 using Umbraco.Extensions;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using System;
+using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Our.Umbraco.TagHelpers
 {
@@ -64,8 +65,14 @@ namespace Our.Umbraco.TagHelpers
             // or contain a quersystring we only want the path part
             if (Uri.TryCreate(href, UriKind.Absolute, out Uri? link) || Uri.TryCreate(ctx.PublishedRequest.Uri, href, out link))
             {
+#if NET10_0_OR_GREATER
+                // TODO: Fix GetByRoute replacement for Umbraco 17
+                // var nodeOfLink = ctx.Content.GetByRoute(link.AbsolutePath);
+                IPublishedContent? nodeOfLink = null;
+#else
                 // Get the node based of the value in the HREF
                 var nodeOfLink = ctx.Content.GetByRoute(link.AbsolutePath);
+#endif
                 if (nodeOfLink == null)
                 {
                     return;

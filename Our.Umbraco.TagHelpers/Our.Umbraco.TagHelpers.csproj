@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net5.0;net6.0;</TargetFrameworks>
+		<TargetFrameworks>net5.0;net6.0;net10.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -32,14 +32,24 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' != 'net10.0'">
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
 		<PackageReference Include="Stubble.Core" Version="1.9.3" />
 		<PackageReference Include="Umbraco.Cms.Core" Version="9.2.0" />
 		<PackageReference Include="Umbraco.Cms.Web.Common" Version="9.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Stubble.Core" Version="1.9.3" />
+		<PackageReference Include="Umbraco.Cms.Core" Version="17.0.0" />
+		<PackageReference Include="Umbraco.Cms.Web.Common" Version="17.0.0" />
+		<PackageReference Include="Umbraco.Cms.Infrastructure" Version="17.0.0" />
+	</ItemGroup>
 	  
+	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1" PrivateAssets="All" />
 	</ItemGroup>

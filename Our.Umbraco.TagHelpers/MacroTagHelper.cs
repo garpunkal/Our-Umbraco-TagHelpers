@@ -47,6 +47,11 @@ namespace Our.Umbraco.TagHelpers
         {
             output.TagName = ""; // Remove the outer <umb-macro> tag
 
+#if NET10_0_OR_GREATER
+            // Macros are not supported in Umbraco 17
+            // We could log a warning but for now we just suppress output
+            await Task.CompletedTask;
+#else
             if (ContentNode is null)
             {
                 // Get the current page/published request IPublishedContent for the content/context to run the Macro in
@@ -66,6 +71,7 @@ namespace Our.Umbraco.TagHelpers
 
             var macroResult = await _umbracoComponentRenderer.RenderMacroForContent(ContentNode, MacroAlias, macroParams);
             output.Content.SetHtmlContent(macroResult.ToHtmlString());
+#endif
         }
     }
 }

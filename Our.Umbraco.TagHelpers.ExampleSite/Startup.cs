@@ -56,7 +56,7 @@ namespace Our.Umbraco.TagHelpers.ExampleSite
                 })
                 .WithEndpoints(u =>
                 {
-                    u.UseInstallerEndpoints();
+
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();
                 });
